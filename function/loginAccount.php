@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($password, $row['user_password'])) {
             // Set session variables
             $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['account_id'] = $row['account_id'];
             $_SESSION['role_id'] = $row['role_id'];
             $_SESSION['logged_in'] = true;
 
