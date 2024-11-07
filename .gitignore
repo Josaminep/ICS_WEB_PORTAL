@@ -1,0 +1,7 @@
+uploads/
+school_materials/
+announcement/
+vendor/
+composer.json
+composer.lock
+php_script.php

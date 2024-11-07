@@ -1,0 +1,32 @@
+:root {
+    --maroon: #5E030A;
+    --white: #F2F2F2;
+    --gold: #FFCD4B;
+    --gold-hover: #C69925;
+    --green: #1BBC3F;
+    --red: #BC381B;
+
+    --header1: 36px;
+    --header2: 32px;
+    --header3: 24px;
+    --subheader1: 20px;
+    --subheader2: 16px;
+    --subheader3: 14px;
+    --subheader4: 12px;
+}
+
+* {
+    margin: 0;
+    font-family: "Montserrat";
+}
+
+.iconify-footer {
+    font-size: 24px;
+}
+
+.copyright-section {
+    background-color: var(--maroon);
+    color: var(--white);
+    font-size: var(--subheader3);
+    font-weight: bold;
+}

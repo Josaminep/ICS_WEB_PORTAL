@@ -1,0 +1,148 @@
+:root {
+    --maroon: #5e030a;
+    --white: #f2f2f2;
+    --gold: #ffcd4b;
+    --gold-hover: #c69925;
+    --green: #1bbc3f;
+    --red: #bc381b;
+    --white-hover: #bababa;
+  
+    --header1: 36px;
+    --header2: 32px;
+    --header3: 24px;
+    --subheader1: 20px;
+    --subheader2: 16px;
+    --subheader3: 14px;
+    --subheader4: 12px;
+  }
+  
+  * {
+    margin: 0;
+    font-family: "Montserrat";
+  }
+  
+  /* Menu Style */
+  .menu {
+    background-color: var(--maroon);
+  }
+  
+  .menu-btn {
+    min-height: 100px;
+    background-color: var(--white);
+    color: var(--black);
+    border: none;
+    font-size: var(--subheader2);
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .menu-btn:hover {
+    background-color: var(--white-hover);
+  }
+  
+  .menu-icon {
+    font-size: 2.5rem;
+  }
+  
+  .ph-icon {
+    font-size: 3rem;
+  }
+  
+  /* Mission and Vision Style */
+  .mission-vision {
+    background-color: var(--maroon);
+  }
+  
+  .mission-title,
+  .vision-title {
+    color: var(--gold);
+    font-size: var(--header3);
+    font-weight: bold;
+  }
+  
+  .mission-text,
+  .vision-text {
+    font-size: var(--subheader3);
+    background-color: var(--white);
+    color: var(--black);
+  }
+  
+  .expand {
+    color: var(--white);
+  }
+  
+  /* Announcement */
+  .mv-scroll,
+  .announcement-scroll {
+    background-color: var(--maroon);
+  }
+  
+  .announcement-section {
+    background-color: var(--white);
+  }
+  
+  .announcement-title {
+    color: var(--gold);
+    font-size: var(--header3);
+    font-weight: bold;
+  }
+  
+  .announcement-text,
+  .name-text {
+    font-size: var(--subheader3);
+    color: var(--black);
+  }
+  .hidden {
+    display: none;
+  }
+  .main-con.hidden {
+    display: none;
+  }
+  .main-con {
+    display: flex;
+    width: 70%;
+    gap: 10px;
+    background: #5e030a;
+    border-radius: 1rem;
+    flex-direction: column;
+  }
+  #applyFilter {
+    border: none;
+    background: transparent;
+  }
+  #applyFilter i {
+    color: #ffffff;
+  }
+  #filterSection ul li {
+    list-style: none;
+  }
+  #statistics-btn.not-active {
+    background: rgb(242, 242, 242);
+  }
+  #statistics-btn {
+    background: #22c55e;
+  }
+  #statistics-btn:hover {
+    background: #bababa;
+  }
+  .section-con {
+    flex-wrap: nowrap;
+  }
+  .recommendation-text {
+    padding: 10px;
+    border: 1px solid white;
+  }
+  .recommendation-text p {
+    line-height: 1em;
+  }
+  .recommendation-text p:last-of-type {
+    margin-bottom: 0;
+  }
+  @media screen and (max-width: 767px) {
+    .section-con {
+      flex-direction: column;
+    }
+    .main-con {
+      width: 100%;
+    }}
+  

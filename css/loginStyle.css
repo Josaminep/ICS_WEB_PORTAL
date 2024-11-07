@@ -1,0 +1,57 @@
+:root {
+    --maroon: #5E030A;
+    --white: #F2F2F2;
+    --gold: #FFCD4B;
+}
+
+body {
+    background-color: var(--white);
+}
+
+.card-header {
+    position: relative;
+    padding: 0;
+}
+
+.card-img-top {
+    z-index: 0;
+}
+  
+.card-body {
+    background-color: var(--maroon);
+    padding: 8% 0 8% 0;
+}
+
+.bi-lock, .bi-person {
+    font-size: 1rem;
+}
+
+.mb-3 {
+    margin: 0 10vw;
+}
+  
+.text-light {
+    color: var(--white) !important;
+    font-size: 12px;
+}
+
+a {
+    padding-left: 8px;
+}
+
+.input-group-text {
+    background-color: var(--white);
+    border-right: none;
+}
+
+  
+.btn-warning {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--white);
+    width: 126px;
+    height: 35px;
+    padding: 5px;
+    border-radius: 20px;
+}
+  
