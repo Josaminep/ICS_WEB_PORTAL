@@ -172,7 +172,7 @@ if (isset($_SESSION['logged_in']) != True) {
             <div class="col-md-4">
                 <div class="mv-scroll rounded-4 p-2" style="height: 650px">
                     <!-- Mission and Vision  -->
-                    <div class="mission-vision rounded-4 p-4 overflow-auto" style="height: 600px;">
+                    <div class="mission-vision rounded-4 p-4 overflow-auto" style="height: 500px;">
                         <p class="mission-title text-center p-2">MISSION</p>
                         <div class="mission-container overflow-auto">
                             <p class="mission-text text-break lh-1 rounded-2 p-3">

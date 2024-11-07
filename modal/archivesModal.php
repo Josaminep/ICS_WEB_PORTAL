@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.11/sweetalert2.min.js"></script>
     <style>
-        /* Basic modal styling */
         .modal-content {
             padding: 20px;
             border-radius: 8px;
@@ -32,86 +30,36 @@
             color: #333;
         }
 
-        /* Form styling */
-        #statusForm {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: 1fr 2fr;
-            margin-top: 10px;
-        }
-
-        #statusForm label {
-            font-weight: bold;
-            color: #555;
-            display: flex;
-            align-items: center;
-        }
-
-        #statusForm select, 
-        #statusForm input, 
-        #statusForm button {
-            padding: 10px;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
+        table {
             width: 100%;
-        }
-
-        /* Styling for select inputs */
-        #statusForm select {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-        }
-
-        #statusForm button {
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            font-weight: bold;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        #statusForm button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Styling for file input */
-        #fileInput {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-        }
-
-        /* Section and student div styling */
-        #newSectionDiv, #retainedInfo {
-            grid-column: span 2;
+            border-collapse: collapse;
             margin-top: 15px;
-            padding: 10px;
-            background-color: #fafafa;
-            border-radius: 5px;
-            border: 1px solid #ddd;
         }
 
-        /* Additional info styling */
-        #retainedInfo p {
-            margin: 5px 0;
-            font-size: 0.95rem;
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 12pt;
+        }
+
+        th {
+            background-color: #5e030a;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            #statusForm {
-                grid-template-columns: 1fr;
-            }
-
-            #statusForm label {
-                font-size: 1rem;
+            .modal-content {
+                padding: 10px;
             }
         }
     </style>
 </head>
-
 <body>
     <!-- SweetAlert messages -->
     <?php if (isset($_SESSION['success_message'])): ?>
@@ -150,22 +98,57 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Form inside modal -->
-                    <form id="statusForm">
-                        <!-- Section Selection -->
-                        <label>Section: </label>
-                        <br>
-                        <label>Grade Level:</label>
-                        <br>
-                        <label>Student List</label>
-                        <th>
-                            <td>Name</td>
-                        <th>
-                    </form>
+                    <!-- Table to display student archives -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>LRN</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date of Birth</th>
+                                <th>Current Status</th>
+                                <th>Parent ID</th>
+                                <th>Section ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Database connection
+                            include('../connectDb.php');
+
+                            // Check connection
+                            if (!$conn) {
+                                echo "<tr><td colspan='8'>Database connection failed.</td></tr>";
+                            } else {
+                                $query = "SELECT * FROM student_archives";
+
+                                $result = mysqli_query($conn, $query);
+
+                                if ($result && mysqli_num_rows($result) > 0) {
+                                    // Loop through each record and display in table rows
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<tr>
+                                                <td>{$row['lrn']}</td>
+                                                <td>{$row['first_name']}</td>
+                                                <td>{$row['last_name']}</td>
+                                                <td>{$row['date_of_birth']}</td>
+                                                <td>{$row['current_status']}</td>
+                                                <td>{$row['parent_id']}</td>
+                                                <td>{$row['section_id']}</td>
+                                            </tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='8'>No records found.</td></tr>";
+                                }
+
+                                mysqli_close($conn);
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>
