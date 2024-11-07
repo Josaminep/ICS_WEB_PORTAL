@@ -141,45 +141,45 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="statusForm" method="POST" action="../modal/querys/t_modal.php">
-    <label for="tsectionSelect">Select Section:</label>
-    <select id="tsectionSelect" name="tsection" required>
-        <!-- Sections will be populated here dynamically -->
-    </select>
+            <form id="statusForm">
+                    <label for="tsectionSelect">Select Section:</label>
+                    <select id="tsectionSelect" name="tsection" required>
+                        <!-- Sections will be populated here dynamically -->
+                    </select>
 
-    <!-- Select Student Dropdown (Initially disabled) -->
-    <label for="studentSelect">Select Student:</label>
-    <select id="studentSelect" name="student" required disabled>
-        <option value="">Choose a student</option>
-    </select>
+                    <!-- Select Student Dropdown (Initially disabled) -->
+                    <label for="studentSelect">Select Student:</label>
+                    <select id="studentSelect" name="student" required disabled>
+                        <option value="">Choose a student</option>
+                    </select>
 
-    <!-- Status Dropdown -->
-    <label for="statusSelect">Status:</label>
-    <select id="statusSelect" name="status" required>
-        <option value="">Choose status</option>
-        <option value="enrolled">Enrolled</option>
-        <option value="passed">Passed</option>
-        <option value="retained">Retained</option>
-        <option value="dropout">Dropout</option>
-    </select>
+                    <!-- Status Dropdown -->
+                    <label for="statusSelect">Status:</label>
+                    <select id="statusSelect" name="status" required>
+                        <option value="">Choose status</option>
+                        <option value="enrolled">Enrolled</option>
+                        <option value="passed">Passed</option>
+                        <option value="retained">Retained</option>
+                        <option value="dropout">Dropout</option>
+                    </select>
 
-    <!-- New Section Selection (Only for 'enrolled' and 'passed') -->
-    <div id="newSectionDiv" style="display: none;">
-        <label for="newSectionSelect">Select New Section:</label>
-        <select id="newSectionSelect" name="new_section">
-            <option value="">Choose a new section</option>
-            <!-- Populate sections from PHP -->
-        </select>
-    </div>
+                    <!-- New Section Selection (Only for 'enrolled' and 'passed') -->
+                    <div id="newSectionDiv" style="display: none;">
+                        <label for="newSectionSelect">Select New Section:</label>
+                        <select id="newSectionSelect" name="new_section">
+                            <option value="">Choose a new section</option>
+                            <!-- Populate sections from PHP -->
+                        </select>
+                    </div>
 
-    <!-- Retained Info -->
-    <div id="retainedInfo" style="display: none;">
-        <p><strong>Section:</strong> <span id="currentSection"></span></p>
-        <p><strong>Year Level:</strong> <span id="currentYearLevel"></span></p>
-    </div>
+                    <!-- Retained Info -->
+                    <div id="retainedInfo" style="display: none;">
+                        <p><strong>Section:</strong> <span id="currentSection"></span></p>
+                        <p><strong>Year Level:</strong> <span id="currentYearLevel"></span></p>
+                    </div>
 
-    <button type="submit">Update Status</button>
-</form>
+                    <button type="submit">Update Status</button>
+                </form>
             </div>
         </div>
     </div>
@@ -221,65 +221,65 @@
             }
         });
         $('#statusForm').submit(function(event) {
-            event.preventDefault();  // Prevent the form from submitting normally
+        event.preventDefault(); // Prevent the form from submitting normally
 
-            const studentId = $('#studentSelect').val();
-            const status = $('#statusSelect').val();
-            const section = $('#tsectionSelect').val();
-            const newSection = $('#newSectionSelect').val(); // Only required for 'enrolled' or 'passed'
+        const studentId = $('#studentSelect').val();
+        const status = $('#statusSelect').val();
+        const section = $('#tsectionSelect').val();
+        const newSection = $('#newSectionSelect').val(); // Only required for 'enrolled' or 'passed'
 
-            // Check if required fields are selected
-            if (!studentId || !status || !section) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Please fill in all required fields.',
-                });
-                return;
-            }
+        // Check if required fields are selected
+        if (!studentId || !status || !section) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Please fill in all required fields.',
+            });
+            return;
+        }
 
-            // Prepare data for submission
-            const postData = {
-                  // Ensure the action is 'updateStatus'
-                student: studentId,
-                status: status,
-                tsection: section,
-                new_section: (status === 'enrolled' || status === 'passed') ? newSection : ''
-            };
-
-            // Send the request to update the status
-            $.ajax({
-                url: '../modal/querys/t_modal.php',  // Adjust the path if needed
-                type: 'POST',
-                data: { action: 'updateStatus', postData },
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                        });
-                        // Optionally, clear the form or reset fields
-                        $('#statusForm')[0].reset();
-                        $('#studentSelect').prop('disabled', true);  // Disable student dropdown again
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: response.message,
-                        });
-                    }
-                },
-                error: function(err) {
-                    console.error('Error updating student status:', err);
+        // Prepare data for submission
+        const postData = {
+            action: 'updateStatus',
+            student: studentId,
+            status: status,
+            tsection: section,
+            new_section: (status === 'enrolled' || status === 'passed') ? newSection : ''
+        };
+        console.log(postData)
+        // Send the request to update the status
+        $.ajax({
+            url: '../modal/querys/t_modal.php',
+            type: 'POST',
+            data: postData,
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                    });
+                    // Optionally, clear the form or reset fields
+                    $('#statusForm')[0].reset();
+                    $('#studentSelect').prop('disabled', true); // Disable student dropdown again
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
-                        text: 'An error occurred while updating the student status.',
+                        text: response.message,
                     });
                 }
-            });
+            },
+            error: function(err) {
+                console.error('Error updating student status:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'An error occurred while updating the student status.',
+                });
+            }
         });
+    });
 
     $.ajax({
         url: '../modal/querys/t_modal.php',  // Make sure the path is correct
