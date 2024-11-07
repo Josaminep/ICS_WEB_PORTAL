@@ -33,23 +33,23 @@
         }
 
         /* Form styling */
-        #statusForm {
+        #ESstatusForm {
             display: grid;
             gap: 20px;
             grid-template-columns: 1fr 2fr;
             margin-top: 10px;
         }
 
-        #statusForm label {
+        #ESstatusForm label {
             font-weight: bold;
             color: #555;
             display: flex;
             align-items: center;
         }
 
-        #statusForm select, 
-        #statusForm input, 
-        #statusForm button {
+        #ESstatusForm select, 
+        #ESstatusForm input, 
+        #ESstatusForm button {
             padding: 10px;
             font-size: 1rem;
             border-radius: 5px;
@@ -59,12 +59,12 @@
         }
 
         /* Styling for select inputs */
-        #statusForm select {
+        #ESstatusForm select {
             background-color: #f9f9f9;
             border: 1px solid #ddd;
         }
 
-        #statusForm button {
+        #ESstatusForm button {
             background-color: #007bff;
             color: #fff;
             cursor: pointer;
@@ -73,12 +73,12 @@
             transition: background-color 0.3s;
         }
 
-        #statusForm button:hover {
+        #ESstatusForm button:hover {
             background-color: #0056b3;
         }
 
         /* Styling for file input */
-        #fileInput {
+        #EsfileInput {
             background-color: #f9f9f9;
             border: 1px solid #ddd;
         }
@@ -101,11 +101,11 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            #statusForm {
+            #ESstatusForm {
                 grid-template-columns: 1fr;
             }
 
-            #statusForm label {
+            #ESstatusForm label {
                 font-size: 1rem;
             }
         }
@@ -151,24 +151,24 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form inside modal -->
-                    <form id="statusForm">
+                    <form id="ESstatusForm">
                         <!-- Section Selection -->
-                        <label for="sectionSelect">Select Section:</label>
-                        <select id="sectionSelect" name="section" required>
+                        <label for="ecertSectionSelect">Select Section:</label>
+                        <select id="ecertSectionSelect" name="section" required>
                             <option value="">Choose a section</option>
                             <!-- Populate with section options from server -->
                         </select>
 
                         <!-- Student Selection (populated based on selected section) -->
-                        <label for="studentSelect">Select Student:</label>
-                        <select id="studentSelect" name="student" required disabled>
+                        <label for="estudentSelect">Select Student:</label>
+                        <select id="estudentSelect" name="student" required disabled>
                             <option value="">Choose a student</option>
                             <!-- Dynamically populated based on section selection -->
                         </select>
 
                         <!-- File Upload -->
-                        <label for="fileInput">Upload E-Certificate:</label>
-                        <input type="file" id="fileInput" name="ecert_file" required accept=".pdf, .jpg, .jpeg, .png">
+                        <label for="EsfileInput">Upload E-Certificate:</label>
+                        <input type="file" id="EsfileInput" name="ecert_file" required accept=".pdf, .jpg, .jpeg, .png">
 
                         <button type="submit">Upload and Send</button>
                     </form>
@@ -178,43 +178,50 @@
     </div>
 
     <script>
-        // Sample data for demonstration (in real scenario, fetch from server)
-        const sections = {
-            "Section A": ["Student 1", "Student 2"],
-            "Section B": ["Student 3", "Student 4"],
-        };
-
-        // Populate sections in sectionSelect dropdown
         $(document).ready(function() {
-            $.each(sections, function(section, students) {
-                $('#sectionSelect').append(new Option(section, section));
-            });
+            $.ajax({
+                url: '../modal/querys/t_modal.php',  // Make sure this path is correct
+                type: 'GET',
+                data: { action: 'getSections' },  // Request action for fetching sections
+                success: function(data) {
+                    console.log("Sections data received:", data);
 
-            // Update student list based on section selection
-            $('#sectionSelect').change(function() {
-                const selectedSection = $(this).val();
-                $('#studentSelect').empty().append(new Option("Choose a student", ""));
-                
-                if (selectedSection) {
-                    $('#studentSelect').prop('disabled', false);
-                    sections[selectedSection].forEach(student => {
-                        $('#studentSelect').append(new Option(student, student));
-                    });
-                } else {
-                    $('#studentSelect').prop('disabled', true);
+                    if (data.success) {
+                        console.log("Sections received:", data.data);
+
+                        // Ensure the #ecertSectionSelect dropdown exists and is being populated
+                        $('#ecertSectionSelect').empty();  // Clear any previous options
+                        $('#ecertSectionSelect').append(new Option("Choose a section", ""));  // Add default option
+
+                        // Populate section dropdown with available sections
+                        data.data.forEach(function(section) {
+                            console.log("Adding section to dropdown:", section);
+                            $('#ecertSectionSelect').append(new Option(section, section));
+                        });
+
+                        console.log('Sections populated successfully.');
+                    } else {
+                        console.error('Error:', data.message);
+                        console.log('Error message:', data.message);
+                    }
+                },
+                error: function(err) {
+                    console.error('Error fetching sections:', err);
+                    console.log('Error details:', err);
                 }
             });
 
             // Handle form submission
-            $('#statusForm').submit(function(event) {
+            $('#ESstatusForm').submit(function(event) {
                 event.preventDefault();
 
                 // Basic form validation
                 const formData = new FormData(this);
                 
                 // Check if file is selected
-                const fileInput = $('#fileInput')[0];
-                if (!fileInput.files.length) {
+                const EsfileInput = $('#EsfileInput')[0];
+                console.log(EsfileInput)
+                if (!EsfileInput.files.length) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error!',
@@ -223,20 +230,93 @@
                     });
                     return;
                 }
+                formData.append('action', 'uploadCert');
+                // Send form data to backend (AJAX call)
+                $.ajax({
+                    url: '../modal/querys/uploadEcert.php',  // PHP script for handling form submission
+                    type: 'POST',
+                    data: formData,
+                    processData: false,  // Don't process the data (needed for FormData)
+                    contentType: false,  // Don't set content type
+                    success: function(response) {
+                        console.log(response); // log the response from the server
 
-                // Add your AJAX form submission logic here
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'E-certificate uploaded and sent successfully!',
-                    confirmButtonText: 'OK'
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'E-certificate uploaded and sent successfully!',
+                                confirmButtonText: 'OK'
+                            });
+                            // Optionally reset the form after successful submission
+                            $('#ESstatusForm')[0].reset();
+                            $('#estudentSelect').prop('disabled', true); // Disable student select after submission
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: response.message,
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.error('AJAX Error:', err);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'An error occurred while processing your request.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
                 });
+            });
 
-                // Clear form after submission
-                $('#statusForm')[0].reset();
-                $('#studentSelect').prop('disabled', true);
+            // Handle section change event to load students
+            $('#ecertSectionSelect').change(function() {
+                const selectedSection = $(this).val();  // Get the selected section
+                console.log("Selected section:", selectedSection);
+
+                // Empty and disable student dropdown until a section is selected
+                $('#estudentSelect').empty().append(new Option("Choose a student", ""));
+                $('#estudentSelect').prop('disabled', true);  // Disable until we have student data
+
+                // If a section is selected, fetch students
+                if (selectedSection) {
+                    console.log("Fetching students for section:", selectedSection);
+                    $.ajax({
+                        url: '../modal/querys/t_modal.php',  // Make sure this path is correct
+                        type: 'GET',
+                        data: { 
+                            action: 'getStudents',  // Request action to fetch students
+                            section: selectedSection  // Pass the selected section
+                        },
+                        success: function(data) {
+                            console.log("Students data received:", data);
+
+                            if (data.success) {
+                                data.data.forEach(function(student) {
+                                    console.log("Adding student:", student);
+                                    $('#estudentSelect').append(new Option(student.name, student.id));
+                                });
+                                $('#estudentSelect').prop('disabled', false);  // Enable student dropdown after populating
+                                console.log('Students populated successfully.');
+                            } else {
+                                console.error('Error:', data.message);
+                                console.log('Error message:', data.message);
+                            }
+                        },
+                        error: function(err) {
+                            console.error('Error fetching students:', err);
+                            console.log('Error details:', err);
+                        }
+                    });
+                } else {
+                    console.log("No section selected, clearing student dropdown.");
+                }
             });
         });
+
     </script>
 </body>
 
