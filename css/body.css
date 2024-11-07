@@ -22,27 +22,111 @@
   }
   
   /* Menu Style */
-  .menu {
-    background-color: var(--maroon);
-  }
+  :root {
+    --maroon: #5e030a;
+    --white: #f2f2f2;
+    --gold: #ffcd4b;
+    --gold-hover: #c69925;
+    --green: #1bbc3f;
+    --red: #bc381b;
+    --white-hover: #bababa;
   
-  .menu-btn {
-    min-height: 100px;
+    --header1: 36px;
+    --header2: 32px;
+    --header3: 24px;
+    --subheader1: 20px;
+    --subheader2: 16px;
+    --subheader3: 14px;
+    --subheader4: 12px;
+}
+
+* {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
     background-color: var(--white);
-    color: var(--black);
-    border: none;
-    font-size: var(--subheader2);
-    font-weight: bold;
-    text-align: left;
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--maroon);
+  padding: 20px;
+  border-radius: 1rem;
+  max-height: 1000px; /* Set maximum height */
+  gap: 20px; /* Spacing between menu buttons */
+  overflow-y: auto; /* Enables vertical scrolling if content exceeds max height */
+}
+
+.menu::-webkit-scrollbar {
+  width: 8px; /* Customize scrollbar width */
+}
+
+.menu::-webkit-scrollbar-track {
+  background: #ddd; /* Scrollbar track color */
+  border-radius: 10px;
+}
+
+.menu::-webkit-scrollbar-thumb {
+  background-color: var(--white-hover); /* Scrollbar thumb color */
+  border-radius: 10px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--maroon);
+  padding: 10px 15px; /* Reduced padding */
+  border-radius: 1rem;
+  max-height: 520px; /* Keep the height, but let overflow control visibility */
+  gap: 10px; /* Adjusted spacing between menu buttons */
+  overflow-y: auto; /* Enable scroll if needed */
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  color: var(--maroon);
+  border: none;
+  font-size: var(--subheader2);
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 10px; /* Adjusted padding */
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+  gap: 10px; /* Spacing between icon and text */
+}
+
+.menu-btn:hover {
+  background-color: var(--white-hover);
+  color: var(--black);
+}
+
+
+.menu-icon {
+  font-size: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 767px) {
+  .row {
+      flex-direction: column;
   }
-  
-  .menu-btn:hover {
-    background-color: var(--white-hover);
-  }
-  
-  .menu-icon {
-    font-size: 2.5rem;
-  }
+}
+
+
   
   .ph-icon {
     font-size: 3rem;
