@@ -173,9 +173,9 @@
                     </div>
 
                     <!-- Retained Info -->
-                    <div id="retainedInfo" style="display: none;">
-                        <p><strong>Section:</strong> <span id="currentSection"></span></p>
-                        <p><strong>Year Level:</strong> <span id="currentYearLevel"></span></p>
+                    <div id="retainedInfo" style="display: none; color: #000">
+                        <p style="color: #000"><strong>Section:</strong> <span id="currentSection"></span></p>
+                        <p style="color: #000"><strong>Year Level:</strong> <span id="currentYearLevel"></span></p>
                     </div>
 
                     <button type="submit">Update Status</button>
@@ -318,9 +318,79 @@
     $('#statusSelect').change(function() {
         const selectedStatus = $(this).val();
         if (selectedStatus === 'enrolled' || selectedStatus === 'passed') {
-            $('#newSectionDiv').show();  // Show the new section select dropdown
+            $('#newSectionDiv').show();
+            $('#retainedInfo').hide();
+        } else if (selectedStatus === 'retained') {
+            $('#newSectionDiv').show();
+            $('#retainedInfo').show();
+            // Fetch and populate the current section and year level
+            $.ajax({
+                url: '../modal/querys/t_modal.php',
+                type: 'GET',
+                data: {
+                    action: 'getRetainedInfo',
+                    student: $('#studentSelect').val()
+                },
+                success: function(data) {
+                    if (data.success) {
+                        $('#currentSection').text(data.data.section);
+                        $('#currentYearLevel').text(data.data.year_level);
+
+                        // Fetch sections with the same grade level
+                        $.ajax({
+                            url: '../modal/querys/t_modal.php',
+                            type: 'GET',
+                            data: {
+                                action: 'getSectionsWithSameGradeLevel',
+                                grade_level: data.data.year_level
+                            },
+                            success: function(sectionData) {
+                                if (sectionData.success) {
+                                    // Clear and populate the newSectionSelect dropdown
+                                    $('#newSectionSelect').empty();
+                                    $('#newSectionSelect').append(new Option("Choose a new section", ""));
+                                    sectionData.data.forEach(function(section) {
+                                        $('#newSectionSelect').append(new Option(section, section));
+                                    });
+                                } else {
+                                    console.error('Error fetching sections:', sectionData.message);
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: sectionData.message,
+                                    });
+                                }
+                            },
+                            error: function(err) {
+                                console.error('Error fetching sections:', err);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'An error occurred while fetching sections.',
+                                });
+                            }
+                        });
+                    } else {
+                        console.error('Error:', data.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: data.message,
+                        });
+                    }
+                },
+                error: function(err) {
+                    console.error('Error fetching retained info:', err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An error occurred while fetching retained information.',
+                    });
+                }
+            });
         } else {
-            $('#newSectionDiv').hide();  // Hide the new section select dropdown
+            $('#newSectionDiv').hide();
+            $('#retainedInfo').hide();
         }
     });
         // Handle section change event to load students
