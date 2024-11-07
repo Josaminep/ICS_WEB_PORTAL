@@ -6,23 +6,18 @@ header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 session_start();
 include "../../connectDb.php";
-$userid = $_SESSION['account_id']; // Get the account_id from session
-$action = isset($_GET['action']) ? $_GET['action'] : ''; // Get action from URL
+$userid = $_SESSION['account_id'];
+$action = isset($_GET['action']) ? $_GET['action'] : $_POST['action'];
 
-// Initialize response array
 $response = [
     'success' => false,
     'message' => '',
     'data' => []
 ];
 
-// Handle different actions
 switch ($action) {
     case 'getSections':
-        // Escape the user_id to prevent SQL injection
         $userid = mysqli_real_escape_string($conn, $userid);
-
-        // SQL query to get sections for the teacher
         $query = "
             SELECT sec.section_name
             FROM section sec
@@ -32,7 +27,6 @@ switch ($action) {
             WHERE a.account_id = '$userid'
             ORDER BY sec.section_name
         ";
-
         $result = mysqli_query($conn, $query);
 
         if ($result) {
@@ -49,11 +43,8 @@ switch ($action) {
         break;
 
     case 'getStudents':
-        // Check if the section parameter is provided
         if (isset($_GET['section'])) {
-            $section = mysqli_real_escape_string($conn, $_GET['section']); // Escape the section name to prevent SQL injection
-
-            // Query to fetch students for the selected section
+            $section = mysqli_real_escape_string($conn, $_GET['section']);
             $query = "
                 SELECT s.student_id, CONCAT(s.first_name, ' ', s.last_name) AS full_name, sec.section_name
                 FROM student s
@@ -61,14 +52,11 @@ switch ($action) {
                 WHERE sec.section_name = '$section'
                 ORDER BY full_name
             ";
-
-            // Execute the query
             $result = mysqli_query($conn, $query);
 
             if ($result) {
                 $students = [];
                 while ($row = mysqli_fetch_assoc($result)) {
-                    // Collect student data including their section name
                     $students[] = [
                         'id' => $row['student_id'],
                         'name' => $row['full_name'],
@@ -92,57 +80,50 @@ switch ($action) {
             $response['message'] = 'Section parameter is missing';
         }
         break;
-    case 'updateStatus':
-            // Ensure the required POST data is available
-            if (isset($_POST['student'], $_POST['status'], $_POST['tsection'], $_POST['new_section'])) {
-                $studentId = mysqli_real_escape_string($conn, $_POST['student']);
-                $status = mysqli_real_escape_string($conn, $_POST['status']);
-                $newSection = mysqli_real_escape_string($conn, $_POST['new_section']);
-                $currentSection = mysqli_real_escape_string($conn, $_POST['tsection']);
-    
-                // Prepare the SQL update query based on the status
-                if ($status == 'enrolled' || $status == 'passed') {
-                    // Update student status and section if 'enrolled' or 'passed'
-                    $query = "
-                        UPDATE student
-                        SET status = '$status', section_id = (SELECT section_id FROM section WHERE section_name = '$newSection')
-                        WHERE student_id = '$studentId'
-                    ";
-                } else {
-                    // For 'retained' or 'dropout', just update the status
-                    $query = "
-                        UPDATE student
-                        SET status = '$status'
-                        WHERE student_id = '$studentId'
-                    ";
-                }
-    
-                // Execute the query
-                if (mysqli_query($conn, $query)) {
+
+    case 'updateStatus': 
+        if (isset($_POST['student'], $_POST['status'], $_POST['tsection'], $_POST['new_section'])) {
+            $studentId = mysqli_real_escape_string($conn, $_POST['student']);
+            $status = mysqli_real_escape_string($conn, $_POST['status']);
+            $newSection = mysqli_real_escape_string($conn, $_POST['new_section']);
+            $currentSection = mysqli_real_escape_string($conn, $_POST['tsection']);
+            $query = "
+                SELECT * FROM student WHERE student_id = '$studentId'
+            ";
+            $result = mysqli_query($conn, $query);
+            $student = mysqli_fetch_assoc($result);
+
+            if ($student) {
+                $archiveQuery = "
+                    INSERT INTO student_archives (lrn, first_name, last_name, date_of_birth, current_status, parent_id, section_id)
+                    VALUES ('{$student['lrn']}', '{$student['first_name']}', '{$student['last_name']}', '{$student['date_of_birth']}', '{$student['current_status']}', '{$student['parent_id']}', '{$student['section_id']}')
+                ";
+
+                if (mysqli_query($conn, $archiveQuery)) {
                     $response['success'] = true;
-                    $response['message'] = 'Student status updated successfully.';
+                    $response['message'] = 'Student data archived successfully.';
                 } else {
                     $response['success'] = false;
-                    $response['message'] = 'Failed to update status: ' . mysqli_error($conn);
+                    $response['message'] = 'Failed to archive student data: ' . mysqli_error($conn);
                 }
             } else {
                 $response['success'] = false;
-                $response['message'] = 'Required fields are missing.';
+                $response['message'] = 'Student not found.';
             }
-            break;
+        } else {
+            $response['success'] = false;
+            $response['message'] = 'Required fields are missing.';
+        }
+        break;
+
     case 'getAllSections':
-        // Escape the user_id to prevent SQL injection
         $userid = mysqli_real_escape_string($conn, $userid);
-    
-        // SQL query to get all sections
         $query = "SELECT section_name FROM section ORDER BY section_name";
-    
         $result = mysqli_query($conn, $query);
-    
+
         if ($result) {
             $sections = [];
             while ($row = mysqli_fetch_assoc($result)) {
-                // Collect section names in the sections array
                 $sections[] = $row['section_name'];
             }
             $response['success'] = true;
@@ -153,6 +134,7 @@ switch ($action) {
             $response['message'] = 'Failed to fetch sections or no sections available';
         }
         break;
+
     default:
         $response['success'] = false;
         $response['message'] = 'Action not recognized';
@@ -161,5 +143,4 @@ switch ($action) {
 
 echo json_encode($response);
 mysqli_close($conn);
-
 ?>
