@@ -159,14 +159,15 @@ if (isset($_SESSION['logged_in']) != True) {
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#inputGradesModal"><iconify-icon class="menu-icon ph-icon" icon="material-symbols:list-alt-outline"></iconify-icon><span style="margin: 0 0 0 10px;">Input Grades</span></a>
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#teacherMaterialsModal"><iconify-icon class="menu-icon ph-icon" icon="ph:pen"></iconify-icon><span style="margin: 0 0 0 10px;">School Materials</span></a>
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#turnOverModal"><iconify-icon class="menu-icon ph-icon" icon="material-symbols:turn-right-rounded"></iconify-icon><span style="margin: 0 0 0 10px;">Turnover Record</span></a>
+                    <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#archivesModal">
+                        <iconify-icon class="menu-icon ph-icon" icon="mdi:archive" width="20" height="20"></iconify-icon>
+                        <span style="margin: 0 0 0 10px;">Student Archives</span>
+                    </a>  
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#EcertModal">
                         <iconify-icon class="menu-icon ph-icon" icon="mdi:send" width="20" height="20"></iconify-icon>
                         <span style="margin: 0 0 0 10px;">Send E-certificates</span>
                     </a>
-                    <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#archivesModal">
-                        <iconify-icon class="menu-icon ph-icon" icon="mdi:archive" width="20" height="20"></iconify-icon>
-                        <span style="margin: 0 0 0 10px;">Student Archives</span>
-                    </a>                
+              
                 </div>
             </div>
             <div class="col-md-4">
