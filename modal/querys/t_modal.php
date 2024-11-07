@@ -96,7 +96,7 @@ switch ($action) {
             if ($student) {
                 $archiveQuery = "
                     INSERT INTO student_archives (lrn, first_name, last_name, date_of_birth, current_status, parent_id, section_id)
-                    VALUES ('{$student['lrn']}', '{$student['first_name']}', '{$student['last_name']}', '{$student['date_of_birth']}', '{$student['current_status']}', '{$student['parent_id']}', '{$student['section_id']}')
+                    VALUES ('{$student['lrn']}', '{$student['first_name']}', '{$student['last_name']}', '{$student['date_of_birth']}', '$status', '{$student['parent_id']}', '{$student['section_id']}')
                 ";
 
                 if (mysqli_query($conn, $archiveQuery)) {
