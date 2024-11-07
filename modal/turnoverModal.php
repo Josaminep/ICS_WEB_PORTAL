@@ -157,7 +157,6 @@
                     <label for="statusSelect">Status:</label>
                     <select id="statusSelect" name="status" required>
                         <option value="">Choose status</option>
-                        <option value="enrolled">Enrolled</option>
                         <option value="passed">Passed</option>
                         <option value="retained">Retained</option>
                         <option value="dropout">Dropout</option>
