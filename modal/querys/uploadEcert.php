@@ -32,7 +32,7 @@ if ($action === 'uploadCert') {
         $subjectId = mysqli_real_escape_string($conn, $_POST['section']);
         
         // Handle file upload
-        $uploadDir = '../../img/ecertificates/';
+        $uploadDir = '../../uploads/';  // Change upload directory to 'uploads/'
         $file = $_FILES['ecert_file'];
         $originalFileName = basename($file['name']);
         $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
