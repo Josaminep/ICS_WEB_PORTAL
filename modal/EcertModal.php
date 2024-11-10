@@ -143,39 +143,93 @@
     <?php endif; ?>
 
     <div class="modal fade modal-lg" id="EcertModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="staticBackdropLabel">Upload and Send E-Certificate</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form inside modal -->
-                    <form id="ESstatusForm">
-                        <!-- Section Selection -->
-                        <label for="ecertSectionSelect">Select Section:</label>
-                        <select id="ecertSectionSelect" name="section" required>
-                            <option value="">Choose a section</option>
-                            <!-- Populate with section options from server -->
-                        </select>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="staticBackdropLabel">Upload and Send E-Certificate</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form inside modal -->
+                <form id="ESstatusForm">
+                    <!-- Section Selection -->
+                    <label for="ecertSectionSelect" class="form-label">Select Section:</label>
+                    <select id="ecertSectionSelect" name="section" class="form-select mb-3" required>
+                        <option value="">Choose a section</option>
+                    </select>
 
-                        <!-- Student Selection (populated based on selected section) -->
-                        <label for="estudentSelect">Select Student:</label>
-                        <select id="estudentSelect" name="student" required disabled>
-                            <option value="">Choose a student</option>
-                            <!-- Dynamically populated based on section selection -->
-                        </select>
+                    <!-- Student Selection (populated based on selected section) -->
+                    <label for="estudentSelect" class="form-label">Select Student:</label>
+                    <select id="estudentSelect" name="student" class="form-select mb-3" required disabled>
+                        <option value="">Choose a student</option>
+                    </select>
 
-                        <!-- File Upload -->
-                        <label for="EsfileInput">Upload E-Certificate:</label>
-                        <input type="file" id="EsfileInput" name="ecert_file" required accept=".pdf, .jpg, .jpeg, .png">
+                    <!-- File Upload -->
+                    <label for="EsfileInput" class="form-label">Upload E-Certificate:</label>
+                    <input type="file" id="EsfileInput" name="ecert_file" class="form-control mb-3" required accept=".pdf, .jpg, .jpeg, .png">
 
-                        <button type="submit">Upload and Send</button>
-                    </form>
-                </div>
+                    <!-- Display Uploaded File -->
+                    <div id="filePreview" class="mt-3 p-3 border rounded" style="background-color: #f8f9fa;">
+                        <!-- Uploaded file preview will be displayed here -->
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Upload and Send</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+<style>
+    #filePreview img {
+        max-width: 100%;
+        max-height: 200px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+    }
+    #filePreview a {
+        display: inline-block;
+        padding: 10px;
+        background-color: #aa2531;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #filePreview a:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<script>
+    document.getElementById('EsfileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('filePreview');
+        
+        // Clear any previous preview
+        preview.innerHTML = '';
+
+        if (file) {
+            // Check if file is an image
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.alt = 'E-Certificate Preview';
+                preview.appendChild(img);
+            } else {
+                // For non-image files (e.g., PDF), show file link
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(file);
+                link.target = '_blank';
+                link.textContent = 'View Uploaded E-Certificate (PDF)';
+                preview.appendChild(link);
+            }
+        }
+    });
+</script>
+
 
     <script>
         $(document).ready(function() {
