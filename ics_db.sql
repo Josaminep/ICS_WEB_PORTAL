@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2024 at 03:32 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Nov 07, 2024 at 05:21 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `account` (
   `user_id` varchar(20) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `role_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
@@ -130,7 +130,7 @@ CREATE TABLE `announcements` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `full_name` varchar(100) NOT NULL,
   `rank_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `announcements`
@@ -157,7 +157,7 @@ CREATE TABLE `class_schedule` (
   `subject_name` varchar(100) DEFAULT NULL,
   `weekday` enum('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday') NOT NULL,
   `section_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `class_schedule`
@@ -207,7 +207,7 @@ CREATE TABLE `class_schedule_archive` (
   `subject_name` varchar(100) DEFAULT NULL,
   `weekday` enum('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday') NOT NULL,
   `section_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -220,7 +220,14 @@ CREATE TABLE `e_cert` (
   `subject_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
   `e_cert` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `e_cert`
+--
+
+INSERT INTO `e_cert` (`e_cert_id`, `subject_id`, `student_id`, `e_cert`) VALUES
+(3, 0, 1010, 'ecert_672cdc11363ae.pdf');
 
 -- --------------------------------------------------------
 
@@ -238,16 +245,16 @@ CREATE TABLE `grade` (
   `second_quarter` decimal(5,2) DEFAULT NULL,
   `third_quarter` decimal(5,2) DEFAULT NULL,
   `fourth_quarter` decimal(5,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `grade`
 --
 
 INSERT INTO `grade` (`grade_id`, `student_id`, `subject_id`, `teacher_id`, `academic_year`, `first_quarter`, `second_quarter`, `third_quarter`, `fourth_quarter`) VALUES
-(1, 1001, 6, 3006, '2024', 95.00, 85.00, 80.00, 83.00),
-(2, 1002, 6, 3006, '2024', 98.00, 85.00, 96.00, 88.00),
-(3, 1003, 6, 3006, '2024', 88.00, 97.00, 89.00, 97.00);
+(1, 1001, 6, 3006, '2024', '95.00', '85.00', '80.00', '83.00'),
+(2, 1002, 6, 3006, '2024', '98.00', '85.00', '96.00', '88.00'),
+(3, 1003, 6, 3006, '2024', '88.00', '97.00', '89.00', '97.00');
 
 -- --------------------------------------------------------
 
@@ -258,7 +265,7 @@ INSERT INTO `grade` (`grade_id`, `student_id`, `subject_id`, `teacher_id`, `acad
 CREATE TABLE `grade_level` (
   `grade_level_id` int(11) NOT NULL,
   `grade_level` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `grade_level`
@@ -286,7 +293,7 @@ CREATE TABLE `guidance` (
   `email` varchar(100) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `rank_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `guidance`
@@ -306,7 +313,7 @@ CREATE TABLE `ics_credential` (
   `user_id` varchar(20) NOT NULL,
   `user_password` varchar(50) NOT NULL,
   `role_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -323,7 +330,7 @@ CREATE TABLE `parent` (
   `phone_number` varchar(15) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `parent`
@@ -400,7 +407,7 @@ CREATE TABLE `pdo` (
   `email` varchar(100) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `rank_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pdo`
@@ -423,7 +430,7 @@ CREATE TABLE `principal` (
   `email` varchar(100) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `rank_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `principal`
@@ -441,7 +448,7 @@ INSERT INTO `principal` (`principal_id`, `first_name`, `middle_name`, `last_name
 CREATE TABLE `rank` (
   `rank_id` int(11) NOT NULL,
   `rank_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rank`
@@ -477,7 +484,7 @@ INSERT INTO `rank` (`rank_id`, `rank_name`) VALUES
 CREATE TABLE `role` (
   `role_id` int(11) NOT NULL,
   `role_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `role`
@@ -503,7 +510,7 @@ CREATE TABLE `schedule_list` (
   `description` text NOT NULL,
   `start_datetime` datetime NOT NULL,
   `end_datetime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `schedule_list`
@@ -526,7 +533,7 @@ CREATE TABLE `school_materials` (
   `teacher_id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `school_materials` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -538,7 +545,7 @@ CREATE TABLE `section` (
   `section_id` int(11) NOT NULL,
   `section_name` varchar(100) DEFAULT NULL,
   `grade_level_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `section`
@@ -584,7 +591,7 @@ CREATE TABLE `student` (
   `grade_level_id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `student`
@@ -655,14 +662,30 @@ INSERT INTO `student` (`student_id`, `lrn`, `first_name`, `middle_name`, `last_n
 
 CREATE TABLE `student_archives` (
   `archive_id` int(11) NOT NULL,
-  `lrn` int(12) DEFAULT NULL,
+  `lrn` bigint(12) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `current_status` varchar(20) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `section_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `student_archives`
+--
+
+INSERT INTO `student_archives` (`archive_id`, `lrn`, `first_name`, `last_name`, `date_of_birth`, `current_status`, `parent_id`, `section_id`) VALUES
+(1, 2147483647, 'Pedro', 'Delos Reyes', '2014-01-11', 'enrolled', 2010, 4),
+(2, 2147483647, 'Pedro', 'Delos Reyes', '2014-01-11', 'passed', 2010, 4),
+(3, 2147483647, 'Pedro', 'Delos Reyes', '2014-01-11', 'enrolled', 2010, 4),
+(5, 2147483647, 'Pedro', 'Delos Reyes', '2014-01-11', 'enrolled', 2010, 4),
+(7, 2147483647, 'Rico', 'Delos Reyes', '2014-03-20', 'enrolled', 2012, 4),
+(8, 2147483647, 'Rico', 'Delos Reyes', '2014-03-20', 'retained', 2012, 4),
+(9, 2147483647, 'Rico', 'Delos Reyes', '2014-03-20', 'retained', 2012, 4),
+(10, 2147483647, 'Hector', 'Delos Reyes', '2014-09-25', 'retained', 2018, 6),
+(11, 2147483647, 'Pedro', 'Delos Reyes', '2014-01-11', 'retained', 2010, 4),
+(12, 100000000010, 'Pedro', 'Delos Reyes', '2014-01-11', 'retained', 2010, 4);
 
 -- --------------------------------------------------------
 
@@ -677,7 +700,7 @@ CREATE TABLE `student_file` (
   `progress_report_card` varchar(100) DEFAULT NULL,
   `medical_assessment` varchar(100) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `student_file`
@@ -696,7 +719,7 @@ CREATE TABLE `subject` (
   `subject_id` int(11) NOT NULL,
   `subject_name` varchar(100) DEFAULT NULL,
   `grade_level_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `subject`
@@ -739,7 +762,7 @@ CREATE TABLE `teacher` (
   `role_id` int(11) NOT NULL,
   `rank_id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `teacher`
@@ -775,7 +798,7 @@ CREATE TABLE `teacher_section` (
   `teacher_section_id` int(11) NOT NULL,
   `teacher_id` int(11) NOT NULL,
   `section_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `teacher_section`
@@ -873,7 +896,6 @@ ALTER TABLE `class_schedule_archive`
 --
 ALTER TABLE `e_cert`
   ADD PRIMARY KEY (`e_cert_id`),
-  ADD KEY `subject_id` (`subject_id`),
   ADD KEY `student_id` (`student_id`);
 
 --
@@ -1033,7 +1055,7 @@ ALTER TABLE `class_schedule_archive`
 -- AUTO_INCREMENT for table `e_cert`
 --
 ALTER TABLE `e_cert`
-  MODIFY `e_cert_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `e_cert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `grade`
@@ -1111,7 +1133,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `student_archives`
 --
 ALTER TABLE `student_archives`
-  MODIFY `archive_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `archive_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `student_file`
