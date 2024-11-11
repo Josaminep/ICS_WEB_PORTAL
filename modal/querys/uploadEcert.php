@@ -28,49 +28,49 @@ $response = [
 // Define action for handling file upload
 if ($action === 'uploadCert') {
 
-        $studentId = mysqli_real_escape_string($conn, $_POST['student']);
-        $subjectId = mysqli_real_escape_string($conn, $_POST['section']);
-        
-        // Handle file upload
-        $uploadDir = '../../uploads/';  // Change upload directory to 'uploads/'
-        $file = $_FILES['ecert_file'];
-        $originalFileName = basename($file['name']);
-        $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-        
-        // Generate a unique file name to avoid duplicates
-        $newFileName = uniqid('ecert_') . '.' . $fileExtension;
-        $filePath = $uploadDir . $newFileName;
+    $studentId = mysqli_real_escape_string($conn, $_POST['student']);
+    $subjectId = mysqli_real_escape_string($conn, $_POST['section']);
+    
+    // Handle file upload
+    $uploadDir = '../../uploads/';  // Change upload directory to 'uploads/'
+    $file = $_FILES['ecert_file'];
+    $originalFileName = basename($file['name']);
+    $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+    
+    // Generate a unique file name to avoid duplicates
+    $newFileName = uniqid('ecert_') . '.' . $fileExtension;
+    $filePath = $uploadDir . $newFileName;
 
-        // Validate file type and size (optional but recommended)
-        $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
-        if (in_array($file['type'], $allowedTypes) && $file['size'] < 5000000) {  // 5MB limit
-            // Move the file to the upload directory
-            if (move_uploaded_file($file['tmp_name'], $filePath)) {
-                // Insert data into the database (save the file name, student, and subject info)
-                $query = "
-                    INSERT INTO e_cert (subject_id, student_id, e_cert)
-                    VALUES ('$subjectId', '$studentId', '$newFileName')
-                ";
+    // Validate file type and size (optional but recommended)
+    $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (in_array($file['type'], $allowedTypes) && $file['size'] < 5000000) {  // 5MB limit
+        // Move the file to the upload directory
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            // Insert data into the database (save the file name, student, and subject info)
+            $query = "
+                INSERT INTO e_cert (subject_id, student_id, e_cert)
+                VALUES ('$subjectId', '$studentId', '$newFileName')
+            ";
 
-                if (mysqli_query($conn, $query)) {
-                    // Success response
-                    $response['success'] = true;
-                    $response['message'] = 'E-certificate uploaded and saved successfully!';
-                } else {
-                    // Database insertion failed
-                    $response['success'] = false;
-                    $response['message'] = 'Failed to save e-certificate in the database.';
-                }
+            if (mysqli_query($conn, $query)) {
+                // Success response
+                $response['success'] = true;
+                $response['message'] = 'E-certificate uploaded and saved successfully!';
             } else {
-                // Failed to upload file
+                // Database insertion failed
                 $response['success'] = false;
-                $response['message'] = 'Failed to upload e-certificate file.';
+                $response['message'] = 'Failed to save e-certificate in the database.';
             }
         } else {
-            // Invalid file type or size
+            // Failed to upload file
             $response['success'] = false;
-            $response['message'] = 'Invalid file type or file size exceeds the limit.';
+            $response['message'] = 'Failed to upload e-certificate file.';
         }
+    } else {
+        // Invalid file type or size
+        $response['success'] = false;
+        $response['message'] = 'Invalid file type or file size exceeds the limit.';
+    }
 } else {
     // Default case if the action is not recognized
     $response['success'] = false;

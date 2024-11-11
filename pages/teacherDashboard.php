@@ -23,6 +23,7 @@ if (isset($_SESSION['logged_in']) != True) {
     <?php include "../modal/turnoverModal.php" ?>
     <?php include "../modal/EcertModal.php" ?>
     <?php include "../modal/archivesModal.php" ?>
+    <?php include "../modal/displayEcert.php" ?>
 
 
     <link rel="stylesheet" href="../css/header.css">
@@ -155,7 +156,7 @@ if (isset($_SESSION['logged_in']) != True) {
         <div class="row mt-3">
             <div class="col-md-3">
                 <!-- Menu Bar -->
-                <div class="menu d-flex flex-column rounded-4 row-gap-4 p-4" style="height: 650px;">
+                <div class="menu d-flex flex-column rounded-4 row-gap-4 p-4" style="height: 760px;">
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#inputGradesModal"><iconify-icon class="menu-icon ph-icon" icon="material-symbols:list-alt-outline"></iconify-icon><span style="margin: 0 0 0 10px;">Input Grades</span></a>
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#teacherMaterialsModal"><iconify-icon class="menu-icon ph-icon" icon="ph:pen"></iconify-icon><span style="margin: 0 0 0 10px;">School Materials</span></a>
                     <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2" data-bs-toggle="modal" data-bs-target="#turnOverModal"><iconify-icon class="menu-icon ph-icon" icon="material-symbols:turn-right-rounded"></iconify-icon><span style="margin: 0 0 0 10px;">Turnover Record</span></a>
@@ -167,13 +168,16 @@ if (isset($_SESSION['logged_in']) != True) {
                         <iconify-icon class="menu-icon ph-icon" icon="mdi:send" width="20" height="20"></iconify-icon>
                         <span style="margin: 0 0 0 10px;">Send E-certificates</span>
                     </a>
-              
+                    <a type="button" class="text-break d-flex flex-row align-items-center btn menu-btn btn-primary rounded-2 py-1" data-bs-toggle="modal" data-bs-target="#displayEcert" style="height: auto;">
+                        <iconify-icon class="menu-icon ph-icon" icon="mdi:file-document-outline" width="16" height="16"></iconify-icon>
+                        <span style="margin-left: 8px; font-size: 14px;">View E-certificates</span>
+                    </a>             
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="mv-scroll rounded-4 p-2" style="height: 650px">
+                <div class="mv-scroll rounded-4 p-2" style="height: 760px">
                     <!-- Mission and Vision  -->
-                    <div class="mission-vision rounded-4 p-4 overflow-auto" style="height: 500px;">
+                    <div class="mission-vision rounded-4 p-4 overflow-auto" style="height: 620px;">
                         <p class="mission-title text-center p-2">MISSION</p>
                         <div class="mission-container overflow-auto">
                             <p class="mission-text text-break lh-1 rounded-2 p-3">
@@ -195,9 +199,9 @@ if (isset($_SESSION['logged_in']) != True) {
 
             <!-- Announcement  -->
             <div class="col-md-5">
-                <div class="announcement-scroll rounded-4 p-4" style="height: 650px">
+                <div class="announcement-scroll rounded-4 p-4" style="height: 760px">
                     <p class="announcement-title text-center p-2">ANNOUNCEMENT</p>
-                    <div class="announcement overflow-y-scroll" style="height: 500px;">
+                    <div class="announcement overflow-y-scroll" style="height: 620px;">
                         <?php
                         include "../connectDb.php";
 
